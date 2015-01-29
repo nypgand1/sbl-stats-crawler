@@ -18,12 +18,9 @@ ENTRY_POINT = settings.ENTRY_POINT
 #BASIC_AUTH_BASE64 = 'Basic %s' % standard_b64encode(BASIC_AUTH_PLAIN)
 
 class SblCommunicator():
-    def __init__(self, league, season, is_debug=False):
-        self.league = league
-        self.season = season
-
+    def __init__(self, league, season, stage, is_debug=False):
         self.league_id = const.league_id_table[league]
-        self.season_id = const.season_id_table[league][season]
+        self.stage_id = const.stage_id_table[league][season][stage]
 
         self.is_debug = is_debug
 
@@ -44,7 +41,7 @@ class SblCommunicator():
 
 
     def get_games_result(self):
-        payload = {'Mo': 9023, 'Type': 'basketball_stagematchlist', 'Nbr': self.season_id, 'TagName': 'bbstagematchlist', 'DivId': 'bbstagematchlist'}
+        payload = {'Mo': 9023, 'Type': 'basketball_stagematchlist', 'Nbr': self.stage_id, 'TagName': 'bbstagematchlist', 'DivId': 'bbstagematchlist'}
         data = {'rs': 'sajaxSubmit', 'rsargs[]': '<Input><F><K></K><V></V></F></Input>'}
 
         r = requests.post(SBL_STATS_URL, params=payload, data=data)

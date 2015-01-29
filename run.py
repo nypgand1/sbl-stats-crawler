@@ -10,7 +10,7 @@ UPDATE_INTERVAL_MIN = settings.UPDATE_INTERVAL_MIN
 
 while(True):
     try:
-        sbl_crawler = SblCrawler(league='SBL', season='12-reg', is_debug=IS_DEBUG, is_parse_only=IS_PARSE_ONLY)
+        sbl_crawler = SblCrawler(league='SBL', season='12', stage='regular', is_debug=IS_DEBUG, is_parse_only=IS_PARSE_ONLY)
         sbl_crawler.start()
     
         sleep(UPDATE_INTERVAL_MIN * 60)

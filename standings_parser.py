@@ -4,9 +4,10 @@ import const
 
 
 class SblStandingsParser():
-    def __init__(self, league, season, is_debug=False):
+    def __init__(self, league, season, stage, is_debug=False):
         self.league = league
         self.season = season
+        self.stage = stage
     
         self.is_debug = is_debug
 
