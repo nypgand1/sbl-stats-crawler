@@ -1,7 +1,7 @@
 # coding=UTF-8
 
 
-########## standings_header ##########
+########## id_tables ##########
 
 league_id_table = {'SBL': 13, 'WSBL': 14}
 
@@ -21,4 +21,8 @@ sbl_stage_id_table = {
 }
 
 stage_id_table = {'SBL': sbl_stage_id_table}
+
+########## game_result_headers ##########
+
+game_result_headers = ['game_num', 'time', 'arena', 'away_tm', 'home_tm', 'score']
 
