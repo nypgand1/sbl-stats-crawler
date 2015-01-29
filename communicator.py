@@ -46,7 +46,8 @@ class SblCommunicator():
 
         r = requests.post(SBL_STATS_URL, params=payload, data=data)
         r.raise_for_status()
-
+        
+        r.encoding = settings.ENCODE
         return r.text
 
         

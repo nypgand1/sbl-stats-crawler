@@ -1,7 +1,9 @@
+# coding=UTF-8
+
 from bs4 import BeautifulSoup
 
 import const
-
+import settings
 
 class SblStandingsParser():
     def __init__(self, league, season, stage, is_debug=False):
@@ -34,7 +36,10 @@ class SblStandingsParser():
         return
 
     def parse_standings_row(self, row):
-        print row
+        cols = row.find_all('td')
+
+        for i, c in enumerate(cols):
+            print c.get_text()
 
         return
 
