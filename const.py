@@ -69,6 +69,6 @@ arena_name_table = {
 ########## game_result_headers ##########
 
 
-game_result_headers = ['game_num', 'time', 'arena', 'away_tm', 'home_tm', 'score']
+game_result_headers = ['num', 'time', 'arena', 'away_tm', 'home_tm', 'score']
 
 
