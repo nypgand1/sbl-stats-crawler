@@ -13,6 +13,9 @@ class SblStandingsParser():
     
         self.is_debug = is_debug
 
+        self.team_id_table =  const.team_id_table[league][season]
+        self.arena_id_table =  const.arena_id_table[league][season]
+        
     def is_game_result_row(self, css_class):
         return css_class in ['row_01', 'row_02']
 
@@ -21,10 +24,11 @@ class SblStandingsParser():
         soup = BeautifulSoup(html_doc)
         table = soup.find(id='StageMatchListTable')
 
-        if table:
-            return self.parse_game_result_table(table)
-        else:
-            return list()
+        if not table:
+            return None
+
+        game_result_dict_list =  list(self.parse_game_result_table(table))
+        self.sum_game_result(game_result_dict_list) 
 
  
     def parse_game_result_table(self, table):
@@ -32,9 +36,7 @@ class SblStandingsParser():
 
         for r in rows:
             game_result_dict = { key: value for key, value in self.parse_game_result_row(r)}
-            print game_result_dict
-
-        return
+            yield game_result_dict
 
 
     def parse_game_result_row(self, row):
@@ -46,6 +48,25 @@ class SblStandingsParser():
             if key is 'game_num' or key is 'time':
                 yield key, c.get_text().encode('ascii')
 
+            if key is 'arena':
+                arena_orig = c.get_text().strip()
+
+                arena_id = self.arena_id_table[arena_orig]
+                arena = const.arena_name_table[arena_id]
+
+                yield key, arena
+                yield 'arena_id', arena_id
+
+            elif key is 'away_tm':
+                away_tm = c.get_text()
+                yield key, away_tm
+                yield 'away_tm_id', self.team_id_table[away_tm]
+
+            elif key is 'home_tm':
+                home_tm = c.get_text()
+                yield key, home_tm
+                yield 'home_tm_id', self.team_id_table[home_tm]
+
             elif key is 'score':
                 score_list = c.get_text().encode(settings.ENCODE).split(':')
                 away_score = score_list[0]
@@ -56,6 +77,14 @@ class SblStandingsParser():
                 yield 'home_score', home_score
                 yield 'href', href
 
-            else:
-                yield key, c.get_text()
+
+    def sum_game_result(self, game_result_dict_list):
+        tm_stats_tot = dict()
+        arena = list()
+        for g in game_result_dict_list:
+            arena.append(g['arena'].strip())
+
+        for a in set(arena):
+            print '>%s<' % a
+    #def sum_tm_stats(self, tm_stats_dict, tm_id, tm_score, opp_score):
 
